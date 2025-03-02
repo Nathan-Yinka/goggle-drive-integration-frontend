@@ -5,6 +5,7 @@ const UploadFile = () => {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     const handleUpload = async () => {
         if (!file) {
@@ -18,7 +19,7 @@ const UploadFile = () => {
             formData.append("file", file);
 
             // ✅ Upload file without email
-            const response = await fetch("http://localhost:8000/drive/upload", {
+            const response = await fetch(`${API_BASE_URL}/drive/upload`, {
                 method: "POST",
                 body: formData
             });
@@ -30,7 +31,7 @@ const UploadFile = () => {
             alert(`✅ File uploaded successfully! Redirecting to edit...`);
 
             // ✅ Redirect to ViewFile page with the edit link
-            navigate(`/drive/view?embedLink=${encodeURIComponent(data.viewLink)}&fileId=${data.fileId}`);
+            navigate(`/drive/view?embedLink=${encodeURIComponent(data.editLink)}&fileId=${data.fileId}`);
         } catch (error) {
             console.error("Error uploading file:", error);
             alert("❌ File upload failed.");

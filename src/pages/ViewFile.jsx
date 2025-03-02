@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const ViewFile = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     
     const embedLink = new URLSearchParams(location.search).get("embedLink");
     const fileId = new URLSearchParams(location.search).get("fileId");
@@ -18,7 +19,7 @@ const ViewFile = () => {
 
         setSaving(true);
         try {
-            const response = await fetch(`http://localhost:8000/drive/download-file?file_id=${fileId}`);
+            const response = await fetch(`${API_BASE_URL}/drive/download-file?file_id=${fileId}`);
             if (!response.ok) throw new Error("Failed to fetch file");
 
             // Extract file metadata from headers
